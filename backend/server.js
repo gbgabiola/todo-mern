@@ -1,10 +1,15 @@
+require('dotenv').config();
 const express = require('express');
-
+const connectDB = require('./config/db');
+const todoRoutes = require('./routes/todos');
 const app = express();
+connectDB();
 
 app.use(express.json({ extended: false }));
-
-app.get('/', (req, res) => res.send('Hello World'));
+app.use('/api/todos', todoRoutes);
+app.get('/', (req, res) =>
+  res.send(`Go to <a href="/api/todos">/api/todos</a> for the Todos API`)
+);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () =>
