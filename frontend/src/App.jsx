@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Todo from './components/Todo';
 import { BASE_URL } from './utils/constant';
 
+const API_URL = BASE_URL || 'http://localhost:3001/api/todos';
+
 const App = () => {
   const [title, setTitle] = useState('');
   const [todos, setTodos] = useState([]);
@@ -10,7 +12,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get(BASE_URL)
+      .get(API_URL)
       .then(res => setTodos(res.data))
       .catch(err => console.log(err));
   });
@@ -18,7 +20,7 @@ const App = () => {
   const createUpdateTodo = () => {
     if (isUpdating === false) {
       axios
-        .post(BASE_URL, { title })
+        .post(API_URL, { title })
         .then(res => {
           console.log(res.data);
           setTitle('');
@@ -26,7 +28,7 @@ const App = () => {
         .catch(err => console.log(err));
     } else {
       axios
-        .put(`${BASE_URL}/${isUpdating}`, { title })
+        .put(`${API_URL}/${isUpdating}`, { title })
         .then(res => {
           console.log(res.data);
           setTitle('');
@@ -43,7 +45,7 @@ const App = () => {
 
   const deleteTodo = id => {
     axios
-      .delete(`${BASE_URL}/${id}`)
+      .delete(`${API_URL}/${id}`)
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
   };
